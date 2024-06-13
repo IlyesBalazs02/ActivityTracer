@@ -1,0 +1,62 @@
+﻿@using ActivityTracer.Models
+@model AppActivity
+
+<h2>Create your new Activity</h2>
+
+<form action="create" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column">
+	@Html.LabelFor(t => t.Title)
+	@Html.EditorFor(t => t.Title)
+
+	@Html.LabelFor(t => t.Description)
+	@Html.EditorFor(t => t.Description)
+
+	@Html.LabelFor(t => t.SelectedSport)
+	@Html.DropDownListFor(t => t.SelectedSport, new SelectList(Enum.GetValues(typeof(Sports))))
+
+	@Html.LabelFor(t => t.Date)
+	@Html.EditorFor(t => t.Date)
+
+	@Html.LabelFor(t => t.Time)
+	<input type="time" id="appt" name="appt" min="09:00" max="18:00" required />
+
+	@* list the data that is optional/not required to be filled in (nullable properties represents the optional datas)*@
+	<select name="SelectProperty" id="PropertySelect">
+		@foreach (var item in Model.GetType().GetProperties().Where(t => Attribute.IsDefined(t, typeof(NullableProperty))))
+		{
+			<option>@item.Name</option>
+		}
+	</select>
+
+	<div id="PropertyDiv" style="display: flex; flex-direction: column">
+	</div>
+
+	<script>
+		document.getElementById('PropertySelect').selectedIndex = -1; /* automatically select the first one, so the user cant select it */
+
+		var dateInput = document.getElementById('Date');
+
+		document.getElementById('Date').value = new Date().toISOString().slice(0, 10);
+		
+
+		function addNewInput() {
+			var selectElement = document.querySelector('select[name="SelectProperty"]');
+
+			var input = document.createElement('input');
+			var label = document.createElement('label');
+			input.name = selectElement.value; /* For the bindingModel */
+			label.textContent = selectElement.value;
+
+			document.getElementById("PropertyDiv").appendChild(label);
+			document.getElementById("PropertyDiv").appendChild(input);
+
+			selectElement.remove(selectElement.value);
+
+			document.getElementById('PropertySelect').selectedIndex = -1;
+		}
+		document.getElementById("PropertySelect").addEventListener("change", addNewInput);
+
+	</script>
+
+	<input type="submit" value="Create" />
+
+</form>
