@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ActivityTracer.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace ActivityTracer.Models
 {
@@ -18,7 +20,7 @@ namespace ActivityTracer.Models
     {
     }
 
-
+    [ModelBinder(BinderType = typeof(AppActivityBinder))]
     public class AppActivity
     {
         [Key]
@@ -53,7 +55,7 @@ namespace ActivityTracer.Models
 
         [NullableProperty]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
-        public int? Pace { get; set; }
+        public DateTime? Pace { get; set; }
 
         [NullableProperty]
         [Range(1, 5000)]
@@ -77,7 +79,6 @@ namespace ActivityTracer.Models
         {
             Id = Guid.NewGuid().ToString();
             this.Description = "";
-            this.Distance = 200;
         }
     }
 }

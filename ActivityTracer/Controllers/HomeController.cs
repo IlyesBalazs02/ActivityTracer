@@ -24,6 +24,13 @@ namespace ActivityTracer.Controllers
             return View(activity);
         }
 
+        [HttpPost]
+        public IActionResult Create(AppActivity appActivity)
+        {
+            var activity = new AppActivity();
+            return View(activity);
+        }
+
         public IActionResult Privacy()
         {
             return View();

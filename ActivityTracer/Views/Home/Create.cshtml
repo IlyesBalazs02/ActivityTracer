@@ -17,7 +17,7 @@
 	@Html.EditorFor(t => t.Date)
 
 	@Html.LabelFor(t => t.Time)
-	<input type="time" id="appt" name="appt" min="09:00" max="18:00" required />
+	<input type="time" id="appt" name="Time" min="00:00" max="23:59" required />
 
 	@* list the data that is optional/not required to be filled in (nullable properties represents the optional datas)*@
 	<select name="SelectProperty" id="PropertySelect">
@@ -40,16 +40,20 @@
 
 		function addNewInput() {
 			var selectElement = document.querySelector('select[name="SelectProperty"]');
+			var selectedIndex = selectElement.selectedIndex;
+
+			var selectedOption = selectElement.options[selectedIndex];
+			var selectedValue = selectedOption.value;
 
 			var input = document.createElement('input');
 			var label = document.createElement('label');
-			input.name = selectElement.value; /* For the bindingModel */
-			label.textContent = selectElement.value;
+			input.name = selectedValue; /* For the bindingModel */
+			label.textContent = selectedValue;
 
 			document.getElementById("PropertyDiv").appendChild(label);
 			document.getElementById("PropertyDiv").appendChild(input);
 
-			selectElement.remove(selectElement.value);
+			selectElement.remove(selectedIndex);
 
 			document.getElementById('PropertySelect').selectedIndex = -1;
 		}
