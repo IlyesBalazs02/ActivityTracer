@@ -5,9 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IAppActivityRepository, AppActivityRepository>();
 builder.Services.AddDbContext<ActivityDbContext>(opt =>
 {
-    opt.UseInMemoryDatabase("db");
+	opt.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ActivityDb;Trusted_Connection=True;MultipleActiveResultSets=true");
 });
 
 var app = builder.Build();

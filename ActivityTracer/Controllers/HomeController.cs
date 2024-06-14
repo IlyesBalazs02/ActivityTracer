@@ -1,3 +1,4 @@
+using ActivityTracer.Data;
 using ActivityTracer.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -7,13 +8,15 @@ namespace ActivityTracer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        IAppActivityRepository repository;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+		public HomeController(ILogger<HomeController> logger, IAppActivityRepository repository)
+		{
+			_logger = logger;
+			this.repository = repository;
+		}
 
-        public IActionResult Index()
+		public IActionResult Index()
         {
             return View();
         }
@@ -27,8 +30,14 @@ namespace ActivityTracer.Controllers
         [HttpPost]
         public IActionResult Create(AppActivity appActivity)
         {
-            var activity = new AppActivity();
-            return View(activity);
+            if (!ModelState.IsValid)
+            {
+                return View(appActivity);
+
+            }
+            repository.Create(appActivity);
+            
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()
