@@ -40,6 +40,12 @@ namespace ActivityTracer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult List()
+        {
+            return View(this.repository.Read());
+        }
+
+
         public IActionResult Privacy()
         {
             return View();

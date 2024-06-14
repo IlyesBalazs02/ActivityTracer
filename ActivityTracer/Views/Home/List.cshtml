@@ -7,3 +7,22 @@
 
 <h1>Activities</h1>
 
+<div class="row row-cols-1 row-cols-md-3 g-4">
+	@foreach (var item in Model)
+	{
+		<div class="col">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">@item.Title</h5>
+					<h6>@item.Description</h6>
+					<div class="SecondaryProperties">
+						@foreach (var prop in item.GetType().GetProperties().Where(t => t.GetValue(item) is not null && Attribute.IsDefined(t, typeof(NullableProperty))))
+						{
+							<p><strong>@prop.Name:</strong> @prop.GetValue(item)</p>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>
