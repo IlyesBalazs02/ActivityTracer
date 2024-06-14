@@ -1,0 +1,81 @@
+﻿@using ActivityTracer.Models
+@model AppActivity
+
+<h2>Create your new Activity</h2>
+
+<form action="update" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column">
+	@Html.LabelFor(t => t.Title)
+	@Html.EditorFor(t => t.Title)
+
+	@Html.LabelFor(t => t.Description)
+	@Html.EditorFor(t => t.Description)
+
+	@Html.LabelFor(t => t.SelectedSport)
+	@Html.DropDownListFor(t => t.SelectedSport, new SelectList(Enum.GetValues(typeof(Sports))))
+
+	@Html.LabelFor(t => t.Date)
+	@Html.EditorFor(t => t.Date)
+
+	@Html.LabelFor(t => t.Time)
+	<input type="time" id="appt" name="Time" min="00:00" max="23:59" required />
+
+	@* List all the property that has a value and posses the "NullableProperty" attribute *@
+	@foreach (var prop in Model.GetType().GetProperties().Where(t => t.GetValue(Model) is not null && Attribute.IsDefined(t, typeof(NullableProperty))))
+	{
+		var propName = prop.Name;
+		var propValue = prop.GetValue(Model).ToString();
+		<label>@propName</label>
+		<input name="@propName" type="text" value="@propValue"/>
+	}
+
+	@* list the data that is optional/not required to be filled in (nullable properties represents the optional datas)*@
+	<select name="SelectProperty" id="PropertySelect">
+
+		@* List all the properties that still doesn't have a value and have the "NullableProperty" attribute' *@
+		@foreach (var prop in Model.GetType().GetProperties().Where(t => t.GetValue(Model) is null && Attribute.IsDefined(t, typeof(NullableProperty))))
+		{
+			<option>@prop.Name</option>
+		}
+	</select>
+
+	<div id="PropertyDiv" style="display: flex; flex-direction: column">
+	</div>
+
+
+	@Html.HiddenFor(t => t.Id)
+
+
+	<script>
+		document.getElementById('PropertySelect').selectedIndex = -1; /* automatically select the first one, so the user cant select it */
+
+		var dateInput = document.getElementById('Date');
+
+		document.getElementById('Date').value = new Date().toISOString().slice(0, 10);
+
+
+		function addNewInput() {
+			var selectElement = document.querySelector('select[name="SelectProperty"]');
+			var selectedIndex = selectElement.selectedIndex;
+
+			var selectedOption = selectElement.options[selectedIndex];
+			var selectedValue = selectedOption.value;
+
+			var input = document.createElement('input');
+			var label = document.createElement('label');
+			input.name = selectedValue; /* For the bindingModel */
+			label.textContent = selectedValue;
+
+			document.getElementById("PropertyDiv").appendChild(label);
+			document.getElementById("PropertyDiv").appendChild(input);
+
+			selectElement.remove(selectedIndex);
+
+			document.getElementById('PropertySelect').selectedIndex = -1;
+		}
+		document.getElementById("PropertySelect").addEventListener("change", addNewInput);
+
+	</script>
+
+	<input type="submit" value="Update" />
+
+</form>

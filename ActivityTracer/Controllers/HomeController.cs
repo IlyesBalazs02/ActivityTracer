@@ -45,6 +45,24 @@ namespace ActivityTracer.Controllers
             return View(this.repository.Read());
         }
 
+        public IActionResult Update(string id)
+        {
+            var appActivity = repository.ReadFromId(id);
+            return View(appActivity);
+        }
+
+        [HttpPost]
+        public IActionResult Update(AppActivity appActivity)
+        {
+			if (!ModelState.IsValid)
+			{
+				return View(appActivity);
+
+			}
+			repository.Update(appActivity);
+            return RedirectToAction(nameof(Index));
+        }
+
 
         public IActionResult Privacy()
         {

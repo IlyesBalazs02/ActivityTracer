@@ -33,18 +33,18 @@ namespace ActivityTracer.Data
 		{
 			var old = ReadFromId((string)activity.Id);
 
-			if (old != null)
+			if (old is null)
 			{
 				throw new Exception("Object not found");
 			}
 
-			foreach (var prop in activity.GetType().GetProperties())
+			foreach (var prop in activity.GetType().GetProperties().Where( t => t.Name != "Id"))
 			{
-				var value = prop.GetValue(activity);
+					var value = prop.GetValue(activity);
 
-				var oldProp = old.GetType().GetProperty(prop.Name);
+					var oldProp = old.GetType().GetProperty(prop.Name);
 
-				oldProp.SetValue(old, value);
+					oldProp.SetValue(old, value);
 			}
 
 			context.SaveChanges();
