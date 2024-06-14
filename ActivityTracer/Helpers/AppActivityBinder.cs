@@ -70,11 +70,11 @@ namespace ActivityTracer.Helpers
 			{
 				activity.Pace = paceResult;
 			}
-			else
-			{
-				activity.Pace = null; // If parsing fails, set it to null
-				bindingContext.ModelState.AddModelError("Pace", "Invalid pace format. Expected format is HH:mm.");
-			}
+			//else
+			//{
+			//	//activity.Pace = null; // If parsing fails, set it to null
+			//	bindingContext.ModelState.AddModelError("Pace", "Invalid pace format. Expected format is HH:mm.");
+			//}
 
 
 			//Distance
@@ -94,7 +94,7 @@ namespace ActivityTracer.Helpers
 			{
 				activity.MaxHeartRate = maxHeartRateResult;
 			}
-
+			
 			bindingContext.Result = ModelBindingResult.Success(activity);
 			return Task.CompletedTask;
 
