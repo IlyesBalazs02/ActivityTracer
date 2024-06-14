@@ -35,7 +35,6 @@ namespace ActivityTracer.Models
         public Sports SelectedSport { get; set; }
 
         [StringLength(300)]
-		[NullableProperty]
 		public string? Description { get; set; }
 
         [Required]

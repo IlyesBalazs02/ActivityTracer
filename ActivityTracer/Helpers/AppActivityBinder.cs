@@ -29,6 +29,7 @@ namespace ActivityTracer.Helpers
 				throw new ArgumentNullException(nameof(bindingContext));
 			}
 
+			if(bindingContext.ValueProvider.GetValue("Description").FirstValue is not null)
 			//Description
 			activity.Description = bindingContext.ValueProvider.GetValue("Description").FirstValue;
 
@@ -93,8 +94,6 @@ namespace ActivityTracer.Helpers
 			{
 				activity.MaxHeartRate = maxHeartRateResult;
 			}
-
-			;
 
 			bindingContext.Result = ModelBindingResult.Success(activity);
 			return Task.CompletedTask;
