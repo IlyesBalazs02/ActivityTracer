@@ -2,6 +2,7 @@ using ActivityTracer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using ActivityTracer.Models;
+using ActivityTracer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, EmailSender>();
+
 builder.Services.AddTransient<IAppActivityRepository, AppActivityRepository>();
 builder.Services.AddDbContext<ActivityDbContext>(opt =>
 	opt
@@ -18,7 +21,7 @@ builder.Services.AddDbContext<ActivityDbContext>(opt =>
 
 builder.Services.AddDefaultIdentity<SiteUser>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedAccount = true;
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;
