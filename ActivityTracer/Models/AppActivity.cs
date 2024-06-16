@@ -1,5 +1,6 @@
 ﻿using ActivityTracer.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -69,8 +70,10 @@ namespace ActivityTracer.Models
 		[Range(50, 220)]
 		public int? MaxHeartRate { get; set; }
 
+        [BindNever]
         public string OwnerId { get; set; }
 
+        [BindNever]
         [NotMapped] //lazyloading
         public virtual SiteUser Owner { get; set; }
 
