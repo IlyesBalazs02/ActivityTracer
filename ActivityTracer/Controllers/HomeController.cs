@@ -85,9 +85,6 @@ namespace ActivityTracer.Controllers
         {
             var principal = this.User;
             var user = await _userManager.GetUserAsync(principal);
-            user.ContentType = "contenttypeisokay";
-            user.FirstName = "firstnameisokay";
-			var result = await _userManager.UpdateAsync(user);
 
 			return View();
         }

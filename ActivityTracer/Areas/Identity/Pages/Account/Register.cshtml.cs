@@ -133,7 +133,8 @@ namespace ActivityTracer.Areas.Identity.Pages.Account
                     stream.Read(data, 0, data.Length);
                 }
                 user.Data = data;
-				var pictureResult = await _userManager.UpdateAsync(user);
+
+				var pictureResult = await _userManager.UpdateAsync(user); //doesn't save it in the database without this
 
 				if (result.Succeeded)
                     {
@@ -158,7 +159,7 @@ namespace ActivityTracer.Areas.Identity.Pages.Account
                         else
                         {
                             await _signInManager.SignInAsync(user, isPersistent: false);
-                        ;
+
                             return LocalRedirect(returnUrl);
                         }
                     }
