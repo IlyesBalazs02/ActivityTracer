@@ -12,27 +12,31 @@ namespace ActivityTracer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<SiteUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         IAppActivityRepository repository;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, IAppActivityRepository repository)
-        {
-            _logger = logger;
-            _userManager = userManager;
-            this.repository = repository;
-        }
+		public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, IAppActivityRepository repository)
+		{
+			_logger = logger;
+			_userManager = userManager;
+			_roleManager = roleManager;
+			this.repository = repository;
+		}
 
-        public IActionResult Index()
+		public IActionResult Index()
         {
             return View();
         }
-        
-        public IActionResult Create()
+
+		[Authorize]
+		public IActionResult Create()
         {
             var activity = new AppActivity();
             return View(activity);
         }
 
-        [HttpPost]
+		[Authorize]
+		[HttpPost]
         public IActionResult Create([Bind()] AppActivity appActivity)
         {
             appActivity.OwnerId = _userManager.GetUserId(this.User);
@@ -78,6 +82,28 @@ namespace ActivityTracer.Controllers
         {
             var user = _userManager.Users.FirstOrDefault(t => t.Id == userId);
             return new FileContentResult(user.Data, user.ContentType);
+        }
+
+        public async Task<IActionResult> DelegateAdmin()
+        {
+			var principal = this.User;
+			var user = await _userManager.GetUserAsync(principal);
+			var role = new IdentityRole()
+			{
+				Name = "Admin"
+			};
+			if (!await _roleManager.RoleExistsAsync("Admin"))
+			{
+				await _roleManager.CreateAsync(role);
+			}
+			await _userManager.AddToRoleAsync(user, "Admin");
+			return RedirectToAction(nameof(Index));
+        }
+
+		[Authorize(Roles = "Admin")]
+		public IActionResult Admin()
+        {
+            return View();
         }
 
         [Authorize]
