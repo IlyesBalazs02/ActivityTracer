@@ -36,7 +36,6 @@ namespace ActivityTracer.Controllers
         {
             appActivity.OwnerId = _userManager.GetUserId(this.User);
 
-            // Ignore Owner and OwnerId from ModelState.
             ModelState.Remove("Owner");
             ModelState.Remove("OwnerId");
             if (!ModelState.IsValid)
