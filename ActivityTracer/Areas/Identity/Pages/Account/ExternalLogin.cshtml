@@ -33,8 +33,10 @@
                 <label asp-for="Input.LastName" class="form-label"></label>
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="Input.PictureUrl" />
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
+        <img src="@Model.Input.PictureUrl" />
     </div>
 </div>
 
