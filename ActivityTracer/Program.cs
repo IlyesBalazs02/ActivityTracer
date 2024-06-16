@@ -16,15 +16,21 @@ builder.Services.AddDbContext<ActivityDbContext>(opt =>
     .UseLazyLoadingProxies()
     );
 
-builder.Services.AddDefaultIdentity<SiteUser>(options => {
+builder.Services.AddDefaultIdentity<SiteUser>(options =>
+{
     options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
 })
-    .AddEntityFrameworkStores<ActivityDbContext>()
     .AddEntityFrameworkStores<ActivityDbContext>();
+
+builder.Services.AddAuthentication().AddFacebook(opt =>
+{
+    opt.AppId = "950452413482166";
+    opt.AppSecret = "427384153dc998e129210735438c2faa";
+});
 
 var app = builder.Build();
 

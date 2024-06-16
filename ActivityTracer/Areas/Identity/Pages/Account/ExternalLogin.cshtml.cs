@@ -78,13 +78,19 @@ namespace ActivityTracer.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            
+            [Required]
+            [StringLength(100)]
+            public string FirstName { get; set; }
+            
+            [Required]
+            [StringLength(100)]
+            public string LastName { get; set; }
+
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -132,7 +138,9 @@ namespace ActivityTracer.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        FirstName = info.Principal.FindFirstValue(ClaimTypes.Surname),
+                        LastName = info.Principal.FindFirstValue(ClaimTypes.GivenName)
                     };
                 }
                 return Page();
@@ -153,6 +161,8 @@ namespace ActivityTracer.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
