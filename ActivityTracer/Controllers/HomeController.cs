@@ -1,5 +1,6 @@
 using ActivityTracer.Data;
 using ActivityTracer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -72,10 +73,23 @@ namespace ActivityTracer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        public IActionResult Privacy()
+        //get user profile picture
+        public IActionResult GetImage(string userId)
         {
-            return View();
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == userId);
+            return new FileContentResult(user.Data, user.ContentType);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Privacy()
+        {
+            var principal = this.User;
+            var user = await _userManager.GetUserAsync(principal);
+            user.ContentType = "contenttypeisokay";
+            user.FirstName = "firstnameisokay";
+			var result = await _userManager.UpdateAsync(user);
+
+			return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

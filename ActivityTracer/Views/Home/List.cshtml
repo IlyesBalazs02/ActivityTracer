@@ -13,6 +13,7 @@
 		<div class="col">
 			<div class="card">
 				<div class="card-body">
+					<img src="@Url.Action("GetImage", "Home", new {userid = item.OwnerId})" />
 					<h4>@item.Owner.FirstName @item.Owner.LastName</h4>
 					<h5 class="card-title">@item.Title</h5>
 					<h6>@item.Description</h6>
