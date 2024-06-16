@@ -23,6 +23,7 @@ builder.Services.AddDefaultIdentity<SiteUser>(options => {
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
 })
+    .AddEntityFrameworkStores<ActivityDbContext>()
     .AddEntityFrameworkStores<ActivityDbContext>();
 
 var app = builder.Build();
@@ -45,5 +46,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 app.Run();
