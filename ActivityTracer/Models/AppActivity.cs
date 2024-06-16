@@ -1,6 +1,7 @@
 ﻿using ActivityTracer.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ActivityTracer.Models
 {
@@ -67,7 +68,12 @@ namespace ActivityTracer.Models
 		[NullableProperty]
 		[Range(50, 220)]
 		public int? MaxHeartRate { get; set; }
-        
+
+        public string OwnerId { get; set; }
+
+        [NotMapped] //lazyloading
+        public virtual SiteUser Owner { get; set; }
+
         //[StringLength(100)]
         //public List<string> PhotoUrls { get; set; }
 

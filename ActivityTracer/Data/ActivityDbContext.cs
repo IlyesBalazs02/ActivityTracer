@@ -11,5 +11,14 @@ namespace ActivityTracer.Data
 
         public ActivityDbContext(DbContextOptions<ActivityDbContext> opt) : base(opt) { }
 
-    }
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			builder.Entity<AppActivity>()
+				.HasOne(t => t.Owner)
+				.WithMany()
+				.HasForeignKey(t => t.OwnerId)
+				.OnDelete(DeleteBehavior.Cascade);
+			base.OnModelCreating(builder);
+		}
+	}
 }

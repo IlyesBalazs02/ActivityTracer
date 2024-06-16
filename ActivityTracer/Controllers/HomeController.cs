@@ -1,5 +1,6 @@
 using ActivityTracer.Data;
 using ActivityTracer.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -8,15 +9,17 @@ namespace ActivityTracer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<SiteUser> _userManager;
         IAppActivityRepository repository;
 
-		public HomeController(ILogger<HomeController> logger, IAppActivityRepository repository)
-		{
-			_logger = logger;
-			this.repository = repository;
-		}
+        public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, IAppActivityRepository repository)
+        {
+            _logger = logger;
+            _userManager = userManager;
+            this.repository = repository;
+        }
 
-		public IActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
