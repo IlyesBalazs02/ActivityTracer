@@ -1,0 +1,23 @@
+﻿@using ActivityTracer.Services
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<SiteUser>
+@inject UserManager<SiteUser> UserManager
+@inject FollowingService FollowingService
+
+<ul>
+	@foreach (var user in Model)
+	{
+		<div class="User" style="padding:20px;margin-bottom:20px;">
+			<img src="@Url.Action("GetImage", "Home", new {userid = user.Id})" class="profilePic" />
+			@user.FirstName @user.LastName
+			@if (await FollowingService.IsFollowingAsync(UserManager.GetUserId(User), user.Id))
+			{
+				<a class="btn btn-danger" href="/Users/Unfollow?userId=@user.Id">Unfollow</a>
+			}
+			else
+			{
+				<a class="btn btn-success" href="/Users/Follow?userId=@user.Id">Follow</a>
+			}
+		</div>
+	}
+</ul>

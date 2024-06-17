@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ActivityTracer.Models
 {
@@ -9,5 +10,16 @@ namespace ActivityTracer.Models
 
 		public string ContentType { get; set; }
 		public byte[] Data { get; set; }
+
+		[NotMapped]
+		public virtual ICollection<UserFollow> Followers { get; set; }
+		[NotMapped]
+		public virtual ICollection<UserFollow> Followings { get; set; }
+
+		public SiteUser()
+		{
+			Followers = new List<UserFollow>();
+			Followings = new List<UserFollow>();
+		}
 	}
 }

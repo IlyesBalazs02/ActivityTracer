@@ -1,6 +1,7 @@
 using ActivityTracer.Data;
 using ActivityTracer.Migrations;
 using ActivityTracer.Models;
+using ActivityTracer.Services;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Authorization;

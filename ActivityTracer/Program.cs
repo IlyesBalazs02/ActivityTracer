@@ -21,7 +21,7 @@ builder.Services.AddDbContext<ActivityDbContext>(opt =>
 
 builder.Services.AddDefaultIdentity<SiteUser>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedAccount = false; //set back to true
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;
@@ -29,6 +29,9 @@ builder.Services.AddDefaultIdentity<SiteUser>(options =>
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ActivityDbContext>();
+
+builder.Services.AddScoped<FollowingService>();
+
 
 builder.Services.AddAuthentication().AddFacebook(opt =>
 {
