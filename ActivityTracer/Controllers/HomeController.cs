@@ -59,15 +59,20 @@ namespace ActivityTracer.Controllers
             return View(this.repository.Read());
         }
 
-        public IActionResult Update(string id)
+        public IActionResult Edit(string id)
         {
             var appActivity = repository.ReadFromId(id);
             return View(appActivity);
         }
 
         [HttpPost]
-        public IActionResult Update(AppActivity appActivity)
+        public IActionResult Edit(AppActivity appActivity)
         {
+			appActivity.OwnerId = _userManager.GetUserId(this.User);
+
+			// Ignore Owner and OwnerId from ModelState.
+			ModelState.Remove("Owner");
+			ModelState.Remove("OwnerId");
 			if (!ModelState.IsValid)
 			{
 				return View(appActivity);

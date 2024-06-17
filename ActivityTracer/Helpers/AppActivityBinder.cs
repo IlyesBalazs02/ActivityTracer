@@ -15,12 +15,14 @@ namespace ActivityTracer.Helpers
 			}
 
 			AppActivity activity = new AppActivity();
-			
+
 
 			//For the update(update view needs a hidden label for the id)
-			if(bindingContext.ValueProvider.GetValue("Id").FirstValue is not null)
-			activity.Id = bindingContext.ValueProvider.GetValue("Id").FirstValue;
-			
+			if (bindingContext.ValueProvider.GetValue("Id").FirstValue is not null)
+			{
+				activity.Id = bindingContext.ValueProvider.GetValue("Id").FirstValue;
+			}
+
 			//Title
 			activity.Title = bindingContext.ValueProvider.GetValue("Title").FirstValue;
 
