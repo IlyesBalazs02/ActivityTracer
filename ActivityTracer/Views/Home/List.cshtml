@@ -6,7 +6,16 @@
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
 
+<head>
+	<style>
+		.carousel-item {
+			transition: none !important;
+		}
+	</style>
+	<!-- Other meta tags, title, and scripts -->
+</head>
 
 <h1>Activities</h1>
 
@@ -51,13 +60,6 @@
 					<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered modal-lg">
 							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="imageModalLabel">Image Viewer</h5>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body text-center">
 									<div id="imageCarousel" class="carousel slide" data-ride="carousel">
 
 										<ol class="carousel-indicators">
@@ -72,7 +74,7 @@
 											@for (int i = 0; i < item.PhotoUrl.Count; i++)
 											{
 												<div class="carousel-item @((i == 0) ? "active" : "")">
-													<img class="d-block w-100" src="@item.PhotoUrl[i]" alt="Slide @i">
+													<img class="d-block w-100" src="@item.PhotoUrl[i]" alt="Slide @i" style="padding: 0;">
 												</div>
 											}
 										</div>
@@ -87,7 +89,6 @@
 											<span class="sr-only">Next</span>
 										</a>
 									</div>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -98,5 +99,9 @@
 		</div>
 	</div>
 }
+
+<style>
+	
+</style>
 
 
