@@ -77,13 +77,18 @@ namespace ActivityTracer.Models
         [NotMapped] //lazyloading
         public virtual SiteUser Owner { get; set; }
 
-        //[StringLength(100)]
-        //public List<string> PhotoUrls { get; set; }
+		//[StringLength(100)]
+		//public List<string> PhotoUrls { get; set; }
 
-        //[NullableProperty]
-        //public int? coords { get; set; }
+		//[NullableProperty]
+		//public int? coords { get; set; }
 
-        public AppActivity()
+		public string getTime()
+		{
+			return Time.ToString("HH") + "h " + Time.ToString("mm") + "m";
+		}
+
+		public AppActivity()
         {
             Id = Guid.NewGuid().ToString();
             this.Description = "";

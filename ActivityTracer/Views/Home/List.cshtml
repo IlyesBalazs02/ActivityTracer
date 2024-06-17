@@ -7,24 +7,40 @@
 
 <h1>Activities</h1>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
-	@foreach (var item in Model)
-	{
-		<div class="col">
-			<div class="card">
+@foreach (var item in Model)
+{
+	<div class="card mb-3" style="max-width: 540px; ">
+		<div class="row g-0">
+			<div class="col-md-8">
 				<div class="card-body">
-					<img src="@Url.Action("GetImage", "Home", new {userid = item.OwnerId})" />
-					<h4>@item.Owner.FirstName @item.Owner.LastName</h4>
-					<h5 class="card-title">@item.Title</h5>
-					<h6>@item.Description</h6>
-					<div class="SecondaryProperties">
-						@foreach (var prop in item.GetType().GetProperties().Where(t => t.GetValue(item) is not null && Attribute.IsDefined(t, typeof(NullableProperty))))
+					<div class="pic-name-date" style="display: flex; align-items: center;">
+						<img src="@Url.Action("GetImage", "Home", new {userid = item.OwnerId})" />
+						<div class="name-date">
+							@item.Owner.FirstName @item.Owner.LastName
+							<br />
+							@item.Date
+						</div>
+					</div>
+					<h3 class="card-title">@item.Title</h3>
+					<p class="card-text">@item.Description</p>
+					<label>@item.SelectedSport    Time: @item.getTime()</label>
+					<div class="OtherProperties">
+						@foreach (var prop in item.GetType().GetProperties().Where(t => Attribute.IsDefined(t, typeof(NullableProperty)) && t.GetValue(item) is not null))
 						{
-							<p><strong>@prop.Name:</strong> @prop.GetValue(item)</p>
+							<div class="tile">
+								<div class="tile-content">
+									<label class="propName">@prop.Name</label>
+									<h4>@prop.GetValue(item)</h4>
+								</div>
+							</div>
 						}
 					</div>
 				</div>
 			</div>
+			<div class="col-md-4">
+ 				<img src="@Url.Action("GetImage", "Home", new {userid = item.OwnerId})" class="img-fluid rounded-start" alt="...">
+ 			</div>
 		</div>
-	}
-</div>
+	</div>
+}
+
