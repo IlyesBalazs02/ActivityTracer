@@ -14,10 +14,10 @@
 	@Html.DropDownListFor(t => t.SelectedSport, new SelectList(Enum.GetValues(typeof(Sports))))
 
 	@Html.LabelFor(t => t.Date)
-	@Html.EditorFor(t => t.Date)
+	<input asp-for="Date" type="datetime-local" id="dt" name="Date" required />
 
 	@Html.LabelFor(t => t.Time)
-	<input type="time" id="appt" name="Time" min="00:00" max="23:59" required />
+	<input asp-for="Time" type="time" id="appt" name="Time" min="00:00" max="23:59" required />
 
 	@* List all the property that has a value and posses the "NullableProperty" attribute *@
 	@foreach (var prop in Model.GetType().GetProperties().Where(t => t.GetValue(Model) is not null && Attribute.IsDefined(t, typeof(NullableProperty))))
