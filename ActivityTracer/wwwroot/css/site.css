@@ -21,33 +21,26 @@ body {
     margin-bottom: 60px;
 }
 
-.profilePic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
+.OwnerName{
+    font-size:18px;
+    font-weight: 600;
 }
 
-.OtherProperties {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 30px 10px;
+.card-title {
+
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+    background-position: 0 bottom;
+    background-size: 80% 2px; /* Adjust the size of the underline */
+    background-repeat: no-repeat;
 }
 
-.propName {
-    padding: 1px;
-    margin: 1px;
-    font-size: 11px;
+.card-text{
+    background-color: rgb(183, 183, 204, 0.06)
 }
 
-.tile {
-    display: flex;
-    flex-direction: column;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 8px;
-    margin-bottom: 10px;
-    /* Additional styling for the tile */
+SportAndType{
+    margin-right:20px;
+
 }
 
 .activityPhotos {
@@ -56,3 +49,62 @@ body {
     margin-bottom: 10px;
 }
 
+.card {
+    max-width: 50vw; /* Set maximum width to half of the viewport width */
+    margin: 0 auto; /* Center the element horizontally */
+    padding: 20px; /* Example padding */
+    background-color: #f0f0f0; /* Example background color */
+    margin-bottom: 20px; /* Adds space between cards */
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column; /* Ensure content stacks vertically */
+    padding: 20px;
+}
+
+.pic-name-date {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profilePic {
+    width: 50px; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    border-radius: 50%; /* Rounded profile picture */
+    margin-right: 15px;
+}
+
+.OtherProperties {
+    gap: 30px 10px;
+    display: flex;
+    flex-wrap: wrap; /* Allow tiles to wrap on smaller screens */
+}
+
+.tile {
+    padding: 5px;
+    margin-right: 10px; /* Space between tiles */
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: rgb(183, 183, 204, 0.06); /* Half-transparent background color */
+
+    border: 1px solid #e9ecef; /* Border around the tile */
+    border-right-width: 3px; /* Adjust border width as desired */
+    border-right-color: #ccc; /* Color of the border line */
+    border-radius: 4px;
+}
+
+.tile-content {
+    
+}
+
+.propName {
+    margin-right: 5px;
+    padding: 1px;
+    margin: 1px;
+    font-size: 11px;
+}
