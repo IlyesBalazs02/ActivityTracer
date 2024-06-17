@@ -30,6 +30,9 @@ builder.Services.AddDefaultIdentity<SiteUser>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ActivityDbContext>();
 
+builder.Services.AddScoped<FollowingService>();
+
+
 builder.Services.AddAuthentication().AddFacebook(opt =>
 {
     opt.AppId = "950452413482166";
