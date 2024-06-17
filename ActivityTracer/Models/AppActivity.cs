@@ -77,8 +77,7 @@ namespace ActivityTracer.Models
         [NotMapped] //lazyloading
         public virtual SiteUser Owner { get; set; }
 
-		//[StringLength(100)]
-		//public List<string> PhotoUrls { get; set; }
+		public List<string>? PhotoUrl { get; set; }
 
 		//[NullableProperty]
 		//public int? coords { get; set; }

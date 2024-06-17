@@ -23,6 +23,8 @@ namespace ActivityTracer.Helpers
 				activity.Id = bindingContext.ValueProvider.GetValue("Id").FirstValue;
 			}
 
+
+
 			//Title
 			activity.Title = bindingContext.ValueProvider.GetValue("Title").FirstValue;
 

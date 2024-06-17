@@ -14,7 +14,7 @@
 			<div class="col-md-8">
 				<div class="card-body">
 					<div class="pic-name-date" style="display: flex; align-items: center;">
-						<img src="@Url.Action("GetImage", "Home", new {userid = item.OwnerId})" />
+						<img src="@Url.Action("GetImage", "Home", new {userid = item.OwnerId})" class="profilePic" />
 						<div class="name-date">
 							@item.Owner.FirstName @item.Owner.LastName
 							<br />
@@ -39,7 +39,13 @@
 				<a href="/Home/Edit?id=@item.Id">Edit Activity</a>
 			</div>
 			<div class="col-md-4">
- 				<img src="@Url.Action("GetImage", "Home", new {userid = item.OwnerId})" class="img-fluid rounded-start" alt="...">
+				@if (item.PhotoUrl is not null)
+				{
+					@foreach (var photo in item.PhotoUrl)
+					{
+						<img src="@photo" class="activityPhotos">
+					}
+				}
  			</div>
 		</div>
 	</div>
