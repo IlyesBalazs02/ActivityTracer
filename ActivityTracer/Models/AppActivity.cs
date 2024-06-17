@@ -82,11 +82,6 @@ namespace ActivityTracer.Models
 		//[NullableProperty]
 		//public int? coords { get; set; }
 
-		public string getTime()
-		{
-			return Time.ToString("HH") + "h " + Time.ToString("mm") + "m";
-		}
-
 		public AppActivity()
         {
             Id = Guid.NewGuid().ToString();
