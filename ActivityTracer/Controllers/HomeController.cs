@@ -1,5 +1,8 @@
 using ActivityTracer.Data;
+using ActivityTracer.Migrations;
 using ActivityTracer.Models;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -15,12 +18,17 @@ namespace ActivityTracer.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         IAppActivityRepository repository;
 
+        BlobServiceClient serviceClient;
+        BlobContainerClient containerClient;
+
 		public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, IAppActivityRepository repository)
 		{
 			_logger = logger;
 			_userManager = userManager;
 			_roleManager = roleManager;
 			this.repository = repository;
+            serviceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=activitytracerstorage;AccountKey=N/7GzEAl1Y4wxc/YQLMAt0wae1h6o25vbjniMn3jL8zim7B5McogkoLJ1AgXJnKrHAEe3ieeM0O8+AStF40ECw==;EndpointSuffix=core.windows.net");
+            containerClient = serviceClient.GetBlobContainerClient("photos");
 		}
 
 		public IActionResult Index()
@@ -37,18 +45,41 @@ namespace ActivityTracer.Controllers
 
 		[Authorize]
 		[HttpPost]
-        public IActionResult Create([Bind()] AppActivity appActivity)
+        public async Task<IActionResult> Create(AppActivity appActivity, [FromForm] List<IFormFile> photoUpload)
         {
             appActivity.OwnerId = _userManager.GetUserId(this.User);
+			appActivity.PhotoUrl = new List<string>();
 
-            // Ignore Owner and OwnerId from ModelState.
-            ModelState.Remove("Owner");
+
+			string formattedDate = appActivity.Date.ToString("yyyyMMdd_HHmmss");
+
+            int i = 0;
+            foreach (var photo in photoUpload)
+            {
+
+                if (photo.Length > 0)
+                {
+                    ++i;
+
+                    BlobClient blobClient = containerClient.GetBlobClient(appActivity.OwnerId + "_" + formattedDate + appActivity.Title.Replace(" ", "").ToLower() + i);
+                    using (var uploadFileStream = photo.OpenReadStream())
+                    {
+                        await blobClient.UploadAsync(uploadFileStream, true);
+                    }
+                    blobClient.SetAccessTier(AccessTier.Cool);
+
+                    appActivity.PhotoUrl.Add(blobClient.Uri.AbsoluteUri);
+                }
+            }
+			// Ignore Owner and OwnerId from ModelState.
+			ModelState.Remove("Owner");
             ModelState.Remove("OwnerId");
             if (!ModelState.IsValid)
             {
                 return View(appActivity);
 
             }
+            
             repository.Create(appActivity);
 
             return RedirectToAction(nameof(Index));
