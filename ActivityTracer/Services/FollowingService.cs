@@ -29,7 +29,7 @@ namespace ActivityTracer.Services
 				FollowerId = followerId,
 				FollowingId = followingId
 			};
-
+			
 			_context.UserFollows.Add(follow);
 			await _context.SaveChangesAsync();
 
