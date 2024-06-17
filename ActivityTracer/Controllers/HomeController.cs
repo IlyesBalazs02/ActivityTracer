@@ -45,23 +45,32 @@ namespace ActivityTracer.Controllers
 
 		[Authorize]
 		[HttpPost]
-        public async Task<IActionResult> Create(AppActivity appActivity, [FromForm] IFormFile photoUpload)
+        public async Task<IActionResult> Create(AppActivity appActivity, [FromForm] List<IFormFile> photoUpload)
         {
             appActivity.OwnerId = _userManager.GetUserId(this.User);
+			appActivity.PhotoUrl = new List<string>();
 
 
 			string formattedDate = appActivity.Date.ToString("yyyyMMdd_HHmmss");
 
-			BlobClient blobClient = containerClient.GetBlobClient(appActivity.OwnerId + "_" + formattedDate + appActivity.Title.Replace(" ", "").ToLower());
-			using (var uploadFileStream = photoUpload.OpenReadStream())
-			{
-				await blobClient.UploadAsync(uploadFileStream, true);
-			}
-			blobClient.SetAccessTier(AccessTier.Cool);
+            int i = 0;
+            foreach (var photo in photoUpload)
+            {
 
-			appActivity.PhotoUrl = new List<string>();
-			appActivity.PhotoUrl.Add(blobClient.Uri.AbsoluteUri);
+                if (photo.Length > 0)
+                {
+                    ++i;
 
+                    BlobClient blobClient = containerClient.GetBlobClient(appActivity.OwnerId + "_" + formattedDate + appActivity.Title.Replace(" ", "").ToLower() + i);
+                    using (var uploadFileStream = photo.OpenReadStream())
+                    {
+                        await blobClient.UploadAsync(uploadFileStream, true);
+                    }
+                    blobClient.SetAccessTier(AccessTier.Cool);
+
+                    appActivity.PhotoUrl.Add(blobClient.Uri.AbsoluteUri);
+                }
+            }
 			// Ignore Owner and OwnerId from ModelState.
 			ModelState.Remove("Owner");
             ModelState.Remove("OwnerId");
