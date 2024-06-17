@@ -55,3 +55,18 @@ body {
     height: auto; /* Maintain aspect ratio */
     margin-bottom: 10px;
 }
+
+#show_image_popup {
+    position: absolute; /*  so that not take place   */
+    top: 50%;
+    left: 50%;
+    z-index: 1000; /*  adobe all elements   */
+    transform: translate(-50%, -50%); /*  make center   */
+
+    display: none; /*  to hide first time   */
+}
+
+    #show_image_popup img {
+        max-width: 90%;
+        height: auto;
+    }
