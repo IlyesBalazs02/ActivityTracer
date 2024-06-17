@@ -1,16 +1,23 @@
 ﻿using ActivityTracer.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace ActivityTracer.Controllers
 {
-	public class FollowController : Controller
+	public class UsersController : Controller
 	{
 		private readonly FollowingService _followingService;
 
-		public FollowController(FollowingService followingService)
+		public UsersController(FollowingService followingService)
 		{
 			_followingService = followingService;
+		}
+
+		[Authorize]
+		public IActionResult OwnProfile()
+		{
+			return View();
 		}
 
 		[HttpPost]
