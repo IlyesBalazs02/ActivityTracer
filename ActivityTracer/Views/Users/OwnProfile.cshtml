@@ -42,7 +42,8 @@
 		<div class="activities">
 			<h1>Activities</h1>
 			<div class="cards-container">
-				@foreach (var item in Model.Activities.OrderByDescending(t => t.Date))
+
+				@foreach (var item in Model.Activities)
 				{
 					@Html.Partial("CardPartial", item)
 				}
@@ -51,9 +52,13 @@
 	</div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+
 
 <head>
 	<style>
