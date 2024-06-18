@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ActivityTracer.Models
 {
@@ -75,6 +76,7 @@ namespace ActivityTracer.Models
 
         [BindNever]
         [NotMapped] //lazyloading
+        [JsonIgnore]
         public virtual SiteUser Owner { get; set; }
 
 		public List<string>? PhotoUrl { get; set; }
