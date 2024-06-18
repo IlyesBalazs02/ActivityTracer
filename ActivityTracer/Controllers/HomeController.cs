@@ -50,6 +50,7 @@ namespace ActivityTracer.Controllers
         {
             appActivity.OwnerId = _userManager.GetUserId(this.User);
 			appActivity.PhotoUrl = new List<string>();
+            
 
 
 			string formattedDate = appActivity.Date.ToString("yyyyMMdd_HHmmss");

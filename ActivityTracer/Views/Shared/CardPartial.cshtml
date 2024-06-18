@@ -32,7 +32,7 @@
 			}
 		</div>
 	</div>
-	@if (Model.PhotoUrl is not null)
+	@if (Model.PhotoUrl.Count() > 0)
 	{
 		//id-s have to contain the activity's id, so each modal have a unique data-target
 		<img src="@Model.PhotoUrl[0]" class="img-fluid" alt="Small Image" data-toggle="modal" data-target="#imageModal-@Model.Id">

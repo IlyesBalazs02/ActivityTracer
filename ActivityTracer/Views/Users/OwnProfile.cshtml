@@ -8,7 +8,7 @@
 
 <h1>My Profile</h1>
 
-<span style="align-content:flex-end">@Model.Activities.Where(t => t.Date >= DateTime.Now.AddMonths(-1)).Aggregate(TimeSpan.Zero, (currentSum, activity) => currentSum + activity.Time)</span>
+<label class="totalTime">@Model.Activities.Where(t => t.Date.Year == DateTime.Now.Year && t.Date.Month == DateTime.Now.Month).Aggregate(TimeSpan.Zero, (currentSum, activity) => currentSum + activity.Time)</label>
 
 <div grid-row-container>
 	<div class="userInfo" style="display: flex; flex-direction: column">
@@ -49,7 +49,7 @@
 			<h1>Activities</h1>
 			<div class="cards-container">
 
-				@foreach (var item in Model.Activities)
+				@foreach (var item in Model.Activities.OrderByDescending(t => t.Date))
 				{
 					@Html.Partial("CardPartial", item)
 				}
