@@ -8,8 +8,8 @@
 
 <h1>My Profile</h1>
 
-@* <label>@Model.Activities.Select(t => t.Time.Total).Sum()</label>
- *@
+<span style="align-content:flex-end">@Model.Activities.Where(t => t.Date >= DateTime.Now.AddMonths(-1)).Aggregate(TimeSpan.Zero, (currentSum, activity) => currentSum + activity.Time)</span>
+
 <div grid-row-container>
 	<div class="userInfo" style="display: flex; flex-direction: column">
 		<div style="text-align: center; display: flex; flex-direction: row; align-items: center;">
