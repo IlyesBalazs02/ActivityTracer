@@ -156,7 +156,7 @@ namespace ActivityTracer.Controllers
 		[Authorize(Roles = "Admin")]
 		public IActionResult Admin()
         {
-            return View();
+            return View(repository.Read());
         }
 
         [Authorize]

@@ -77,7 +77,8 @@
 		</div>
 
 	}
-	@if (Model.OwnerId == UserManager.GetUserId(User))
+
+	@if (Model.OwnerId == UserManager.GetUserId(User) )
 	{
 		<a class="btn btn-danger" href="/Home/edit?id=@Model.Id">EditActivity</a>
 	}
