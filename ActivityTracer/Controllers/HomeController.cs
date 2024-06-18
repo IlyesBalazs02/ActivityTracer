@@ -46,14 +46,9 @@ namespace ActivityTracer.Controllers
             var followings = await _followingService.GetFollowingsAsync(thisUserId);
             followings.Add(await _userManager.GetUserAsync(User));
 
-            foreach(var user in followings)
-            {
-
-            }
-
 			//Select this user's activities and those activities that belong to the users it follows.
 			var activities = repository.Read().Where(t => followings.Select(x => x.Id).Contains(t.OwnerId));
-            return View(activities);
+            return View(activities.OrderByDescending(t => t.Date));
         }
 
 		[Authorize]
@@ -155,6 +150,12 @@ namespace ActivityTracer.Controllers
 			}
 			await _userManager.AddToRoleAsync(user, "Admin");
 			return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(string activityId)
+        {
+            repository.DeleteFromId(activityId);
+            return RedirectToAction(nameof(MainPage));
         }
 
 		[Authorize(Roles = "Admin")]

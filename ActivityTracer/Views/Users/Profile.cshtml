@@ -22,13 +22,14 @@
 		@Html.Partial("FollowingPartial", Model)
 
 		@Html.Partial("FollowerPartial", Model)
+
 	</div>
 
 	<div class="activities">
 		<h1>Activities</h1>
 		<div class="cards-container">
 
-			@foreach (var item in Model.Activities)
+			@foreach (var item in Model.Activities.OrderByDescending(t => t.Date))
 			{
 				@Html.Partial("CardPartial", item)
 			}

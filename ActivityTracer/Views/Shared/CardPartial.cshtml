@@ -1,4 +1,6 @@
-﻿@model AppActivity
+﻿@using Microsoft.AspNetCore.Identity
+@model AppActivity
+@inject UserManager<SiteUser> UserManager
 
 <head>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -75,4 +77,17 @@
 		</div>
 
 	}
+	@if (Model.OwnerId == UserManager.GetUserId(User))
+	{
+		<a class="btn btn-danger" href="/Home/edit?id=@Model.Id">EditActivity</a>
+	}
+
 </div>
+
+<head>
+	<style>
+		.modal-backdrop {
+			background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha value (last number) to change opacity */
+		}
+	</style>
+</head>

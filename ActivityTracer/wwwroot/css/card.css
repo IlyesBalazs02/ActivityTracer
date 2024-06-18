@@ -82,3 +82,7 @@ SportAndType {
     margin: 1px;
     font-size: 11px;
 }
+
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5) !important; /* Adjust opacity as needed */
+}

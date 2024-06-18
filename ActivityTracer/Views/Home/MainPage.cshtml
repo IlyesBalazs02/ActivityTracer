@@ -2,7 +2,7 @@
 @model IEnumerable<AppActivity>
 
 <div class="activities">
-	<h1>Activities</h1>
+	<h1 style="text-align:center">Activities</h1>
 	<div class="cards-container">
 
 		@foreach (var item in Model.OrderByDescending(t => t.Date))

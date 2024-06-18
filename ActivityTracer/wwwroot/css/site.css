@@ -19,14 +19,8 @@ html {
 
 body {
     margin-bottom: 60px;
+    background-color:rgb(246, 235, 235) !important;
 }
-
-
-
-
-
-
-
 
 .profilePic {
     width: 50px;
