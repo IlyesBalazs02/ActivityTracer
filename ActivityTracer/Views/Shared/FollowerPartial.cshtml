@@ -1,0 +1,15 @@
+﻿@model SiteUser
+@using ActivityTracer.Services
+@inject FollowingService _FollowingService
+
+<div class="followers" style="display: flex; flex-direction: column">
+	<span class="follower-span">Followers</span>
+	@foreach (var user in await _FollowingService.GetFollowersAsync(Model.Id))
+	{
+		<div class="following-profile">
+			<a style="text-decoration:none; color: black;" href="@Url.Action("Profile", "Users", new {userId = user.Id})">
+				<img src="@Url.Action("GetImage", "Home", new { userid = user.Id })" class="profilePic" />
+				<span style="font-size: 17px;">@user.FirstName @user.LastName</span>
+			</a>
+		</div>
+	}

@@ -4,11 +4,11 @@
 
 <head>
 	<link rel="stylesheet" href="~/css/profile.css" />
-	</head>
+</head>
 
 <h1>My Profile</h1>
 
-<label class="totalTime">@Model.Activities.Where(t => t.Date.Year == DateTime.Now.Year && t.Date.Month == DateTime.Now.Month).Aggregate(TimeSpan.Zero, (currentSum, activity) => currentSum + activity.Time)</label>
+<label class="totalTime">Total time spent in this month: @Model.Activities.Where(t => t.Date.Year == DateTime.Now.Year && t.Date.Month == DateTime.Now.Month).Aggregate(TimeSpan.Zero, (currentSum, activity) => currentSum + activity.Time)</label>
 
 <div grid-row-container>
 	<div class="userInfo" style="display: flex; flex-direction: column">
@@ -19,41 +19,20 @@
 	</div>
 
 	<div class="grid-container">
-		<div class="followings" style="display: flex; flex-direction: column">
-			<span class="follower-span">Following</span>
-			@foreach (var user in await _FollowingService.GetFollowingsAsync(Model.Id))
-			{
-				<div class="following-profile">
-					<a style="text-decoration:none; color: black;" href="@Url.Action("Profile", "Users", new {userId = user.Id})">
-						<img src="@Url.Action("GetImage", "Home", new { userid = user.Id })" class="profilePic" />
-						<span style="font-size: 17px;">@user.FirstName @user.LastName</span>
-					</a>
-				</div>
-			}
-		</div>
+		@Html.Partial("FollowingPartial", Model)
 
-		<div class="followers" style="display: flex; flex-direction: column">
-			<span class="follower-span">Followers</span>
-			@foreach (var user in await _FollowingService.GetFollowersAsync(Model.Id))
-			{
-				<div class="following-profile">
-					<a style="text-decoration:none; color: black;" href="@Url.Action("Profile", "Users", new {userId = user.Id})">
-						<img src="@Url.Action("GetImage", "Home", new { userid = user.Id })" class="profilePic" />
-						<span style="font-size: 17px;">@user.FirstName @user.LastName</span>
-					</a>
-				</div>
-			}
-		</div>
-		
-		<div class="activities">
-			<h1>Activities</h1>
-			<div class="cards-container">
+		@Html.Partial("FollowerPartial", Model)
 
-				@foreach (var item in Model.Activities.OrderByDescending(t => t.Date))
-				{
-					@Html.Partial("CardPartial", item)
-				}
-			</div>
+	</div>
+
+	<div class="activities">
+		<h1>Activities</h1>
+		<div class="cards-container">
+
+			@foreach (var item in Model.Activities.OrderByDescending(t => t.Date))
+			{
+				@Html.Partial("CardPartial", item)
+			}
 		</div>
 	</div>
 </div>
