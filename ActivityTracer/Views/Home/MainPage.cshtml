@@ -1,0 +1,13 @@
+﻿@using ActivityTracer.Models
+@model IEnumerable<AppActivity>
+
+<div class="activities">
+	<h1>Activities</h1>
+	<div class="cards-container">
+
+		@foreach (var item in Model.OrderByDescending(t => t.Date))
+		{
+			@Html.Partial("CardPartial", item)
+		}
+	</div>
+</div>

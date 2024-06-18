@@ -17,17 +17,19 @@ namespace ActivityTracer.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<SiteUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly FollowingService _followingService;
         IAppActivityRepository repository;
 
         BlobServiceClient serviceClient;
         BlobContainerClient containerClient;
 
-		public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, IAppActivityRepository repository)
+		public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, IAppActivityRepository repository, FollowingService followingService)
 		{
 			_logger = logger;
 			_userManager = userManager;
 			_roleManager = roleManager;
 			this.repository = repository;
+            this._followingService = followingService;
             serviceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=activitytracerstorage;AccountKey=N/7GzEAl1Y4wxc/YQLMAt0wae1h6o25vbjniMn3jL8zim7B5McogkoLJ1AgXJnKrHAEe3ieeM0O8+AStF40ECw==;EndpointSuffix=core.windows.net");
             containerClient = serviceClient.GetBlobContainerClient("photos");
 		}
@@ -35,6 +37,23 @@ namespace ActivityTracer.Controllers
 		public IActionResult Index()
         {
             return View();
+        }
+
+		[Authorize]
+		public async Task<IActionResult> MainPage()
+        {
+            var thisUserId = _userManager.GetUserId(this.User);
+            var followings = await _followingService.GetFollowingsAsync(thisUserId);
+            followings.Add(await _userManager.GetUserAsync(User));
+
+            foreach(var user in followings)
+            {
+
+            }
+
+			//Select this user's activities and those activities that belong to the users it follows.
+			var activities = repository.Read().Where(t => followings.Select(x => x.Id).Contains(t.OwnerId));
+            return View(activities);
         }
 
 		[Authorize]
