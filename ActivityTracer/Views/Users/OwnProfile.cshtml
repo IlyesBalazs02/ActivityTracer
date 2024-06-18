@@ -8,6 +8,8 @@
 
 <h1>My Profile</h1>
 
+@* <label>@Model.Activities.Select(t => t.Time.Total).Sum()</label>
+ *@
 <div grid-row-container>
 	<div class="userInfo" style="display: flex; flex-direction: column">
 		<div style="text-align: center; display: flex; flex-direction: row; align-items: center;">
@@ -18,7 +20,7 @@
 
 	<div class="grid-container">
 		<div class="followings" style="display: flex; flex-direction: column">
-			<h2>Following</h2>
+			<span class="follower-span">Following</span>
 			@foreach (var user in await _FollowingService.GetFollowingsAsync(Model.Id))
 			{
 				<div class="following-profile">
@@ -31,7 +33,7 @@
 		</div>
 
 		<div class="followers" style="display: flex; flex-direction: column">
-			<h2>Followers</h2>
+			<span class="follower-span">Followers</span>
 			@foreach (var user in await _FollowingService.GetFollowersAsync(Model.Id))
 			{
 				<div class="following-profile">

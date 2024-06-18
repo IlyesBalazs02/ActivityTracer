@@ -43,14 +43,19 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    margin-right: 15px;
+    margin: 15px;
 }
 
 .following-profile {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 
 .activities {
     margin-bottom: 20px;
+}
+
+.follower-span {
+    font-size: 32px;
+    text-align: center;
 }

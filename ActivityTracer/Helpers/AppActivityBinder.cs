@@ -53,9 +53,13 @@ namespace ActivityTracer.Helpers
 			}
 
 			//Time
-			if (DateTime.TryParseExact(bindingContext.ValueProvider.GetValue("Time").FirstValue, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime timeResult))
+			if (DateTime.TryParse(bindingContext.ValueProvider.GetValue("Time").FirstValue, out DateTime parsedDateTime))
 			{
-				activity.Time = timeResult;
+				int hours = parsedDateTime.Hour;
+				int minutes = parsedDateTime.Minute;
+				int seconds = parsedDateTime.Second;
+
+				activity.Time = new TimeSpan(hours, minutes, seconds);
 			}
 			else
 			{

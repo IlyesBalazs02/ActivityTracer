@@ -19,7 +19,7 @@
 		</div>
 		<h3 class="card-title">@Model.Title</h3>
 		<p class="card-text">@Model.Description</p>
-		<div class="SportAndType">@Model.SelectedSport Time:@Model.Time.ToString("HH:mm")</div>
+		<div class="SportAndType">@Model.SelectedSport Time:@Model.Time</div>
 		<div class="OtherProperties">
 			@foreach (var prop in Model.GetType().GetProperties().Where(t => Attribute.IsDefined(t, typeof(NullableProperty)) && t.GetValue(Model) is not null))
 			{

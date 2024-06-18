@@ -44,8 +44,7 @@ namespace ActivityTracer.Models
         public DateTime Date { get; set; }
 
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
-        public DateTime Time { get; set; }
+        public TimeSpan Time { get; set; }
 
         [NullableProperty]
         [Range(1,5000)]

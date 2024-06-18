@@ -4,6 +4,7 @@ using ActivityTracer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ActivityTracer.Migrations
 {
     [DbContext(typeof(ActivityDbContext))]
-    partial class ActivityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240618183555_TimeSpan")]
+    partial class TimeSpan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,8 +68,8 @@ namespace ActivityTracer.Migrations
                     b.Property<int>("SelectedSport")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()

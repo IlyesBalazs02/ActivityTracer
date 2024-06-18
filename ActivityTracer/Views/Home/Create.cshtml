@@ -17,7 +17,7 @@
 	@Html.EditorFor(t => t.Date)
 
 	@Html.LabelFor(t => t.Time)
-	<input type="time" id="appt" name="Time" min="00:00" max="23:59" required />
+	<input type="time" id="appt" name="Time" min="00:00" max="23:59" step="1" required />
 
 	@* list the data that is optional/not required to be filled in (nullable properties represents the optional datas)*@
 	<select name="SelectProperty" id="PropertySelect">

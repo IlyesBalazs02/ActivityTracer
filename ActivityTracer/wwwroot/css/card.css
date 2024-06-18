@@ -3,6 +3,10 @@
     transition: none !important;
 }
 
+.carousel-content {
+    max-height: 1fr;
+}
+
 .card {
     margin-bottom: 20px;
 }
