@@ -1,9 +1,11 @@
 ﻿@using ActivityTracer.Models
 @model AppActivity
 
-<h2>Create your new Activity</h2>
+<h2 style="text-align:center">Create your new Activity</h2>
 
-<form action="create" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column">
+<link rel="stylesheet" href="~/css/create_edit.css" />
+
+<form action="create" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column" class="activity-form">
 	@Html.LabelFor(t => t.Title)
 	@Html.EditorFor(t => t.Title)
 
@@ -20,49 +22,54 @@
 	<input type="time" id="appt" name="Time" min="00:00:00" max="23:59:59" step="1" required />
 
 	@* list the data that is optional/not required to be filled in (nullable properties represents the optional datas)*@
-	<select name="SelectProperty" id="PropertySelect">
+	<select name="SelectProperty" id="PropertySelect" class="form-control">
+		<option value="" disabled selected hidden>Add Data</option>
 		@foreach (var item in Model.GetType().GetProperties().Where(t => Attribute.IsDefined(t, typeof(NullableProperty))))
 		{
 			<option>@item.Name</option>
 		}
 	</select>
 
-	<div id="PropertyDiv" style="display: flex; flex-direction: column">
+	<div id="PropertyDiv" style="display: flex; flex-direction: column" class="property-div"></div>
+
+
+
+	<div class="form-group">
+		<label for="photoUpload">Upload Photos</label>
+		<input type="file" name="photoUpload" multiple class="form-control-file" />
 	</div>
-
-	<script>
-		document.getElementById('PropertySelect').selectedIndex = -1; /* automatically select the first one, so the user cant select it */
-
-		var dateInput = document.getElementById('Date');
-
-		document.getElementById('Date').value = new Date().toISOString().slice(0, 10);
-		
-
-		function addNewInput() {
-			var selectElement = document.querySelector('select[name="SelectProperty"]');
-			var selectedIndex = selectElement.selectedIndex;
-
-			var selectedOption = selectElement.options[selectedIndex];
-			var selectedValue = selectedOption.value;
-
-			var input = document.createElement('input');
-			var label = document.createElement('label');
-			input.name = selectedValue; /* For the bindingModel */
-			label.textContent = selectedValue;
-
-			document.getElementById("PropertyDiv").appendChild(label);
-			document.getElementById("PropertyDiv").appendChild(input);
-
-			selectElement.remove(selectedIndex);
-
-			document.getElementById('PropertySelect').selectedIndex = -1;
-		}
-		document.getElementById("PropertySelect").addEventListener("change", addNewInput);
-
-	</script>
-
-	<input type="file" name="photoUpload" multiple />
 
 	<input type="submit" value="Create" />
 
 </form>
+
+<script>
+	document.getElementById('PropertySelect').selectedIndex = 0; /* automatically select the first one, so the user cant select it */
+
+	var dateInput = document.getElementById('Date');
+
+	document.getElementById('Date').value = new Date().toISOString().slice(0, 10);
+
+
+	function addNewInput() {
+		var selectElement = document.querySelector('select[name="SelectProperty"]');
+		var selectedIndex = selectElement.selectedIndex;
+
+		var selectedOption = selectElement.options[selectedIndex];
+		var selectedValue = selectedOption.value;
+
+		var input = document.createElement('input');
+		var label = document.createElement('label');
+		input.name = selectedValue; /* For the bindingModel */
+		label.textContent = selectedValue;
+
+		document.getElementById("PropertyDiv").appendChild(label);
+		document.getElementById("PropertyDiv").appendChild(input);
+
+		selectElement.remove(selectedIndex);
+
+		document.getElementById('PropertySelect').selectedIndex = 0;
+	}
+	document.getElementById("PropertySelect").addEventListener("change", addNewInput);
+
+</script>
