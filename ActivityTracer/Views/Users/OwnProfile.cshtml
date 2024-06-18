@@ -2,21 +2,134 @@
 @model SiteUser
 @inject FollowingService _FollowingService
 
-<h1>OwnProfile</h1>
+<h1>My Profile</h1>
 
-<div style="display: flex; flex-direction: column">
-	<div>
-		<h2>User Profile</h2>
-		<img src="@Url.Action("GetImage", "Home", new {userid = Model.Id})" class="profilePic" />
+<div grid-row-container>
+	<div class="userInfo" style="display: flex; flex-direction: column">
+		<div style="text-align: center; display: flex; flex-direction: row; align-items: center;">
+			<img src="@Url.Action("GetImage", "Home", new { userid = Model.Id })" class="profilePic" />
+			<span style="font-size: 23px;">@Model.FirstName @Model.LastName</span>
+		</div>
 	</div>
-	<p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
-	<p><strong>Email:</strong> @Model.Email</p>
+
+	<div class="grid-container">
+		<div class="followings" style="display: flex; flex-direction: column">
+			<h2>Following</h2>
+			@foreach (var user in await _FollowingService.GetFollowingsAsync(Model.Id))
+			{
+				<div class="following-profile">
+					<a style="text-decoration:none; color: black;" href="@Url.Action("Profile", "Users", new {userId = user.Id})">
+						<img src="@Url.Action("GetImage", "Home", new { userid = user.Id })" class="profilePic" />
+						<span style="font-size: 17px;">@user.FirstName @user.LastName</span>
+					</a>
+				</div>
+			}
+		</div>
+
+		<div class="followers" style="display: flex; flex-direction: column">
+			<h2>Followers</h2>
+			@foreach (var user in await _FollowingService.GetFollowersAsync(Model.Id))
+			{
+				<div class="following-profile">
+					<a style="text-decoration:none; color: black;" href="@Url.Action("Profile", "Users", new {userId = user.Id})">
+						<img src="@Url.Action("GetImage", "Home", new { userid = user.Id })" class="profilePic" />
+						<span style="font-size: 17px;">@user.FirstName @user.LastName</span>
+					</a>
+				</div>
+			}
+		</div>
+		
+		<div class="activities">
+			<h1>Activities</h1>
+			<div class="cards-container">
+				@foreach (var item in Model.Activities.OrderByDescending(t => t.Date))
+				{
+					@Html.Partial("CardPartial", item)
+				}
+			</div>
+		</div>
+	</div>
 </div>
 
-<div>
-	@foreach (var user in await _FollowingService.GetFollowingsAsync(Model.Id))
-	{
-		<li>@user.FirstName @user.LastName</li>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-	}
-</div>
+<head>
+	<style>
+		.carousel-item {
+			transition: none !important;
+		}
+
+		.grid-row-container {
+			display: grid;
+			grid-template-rows: 100px 1fr;
+			margin: 0 auto;
+		}
+
+		.grid-container {
+			display: grid;
+			grid-template-columns: 2fr 5fr 2fr;
+			margin: 0 auto;
+		}
+
+		.userInfo {
+			grid-row: 1;
+			grid-column: 1;
+		}
+
+		.followings {
+			grid-column: 1;
+			grid-row: 2;
+			justify-items: start;
+			text-align: left;
+		}
+
+		.followers {
+			grid-column: 3;
+			grid-row: 2;
+			justify-items: start;
+			text-align: left;
+		}
+
+		.activities {
+			grid-column: 2;
+			grid-row: 2;
+		}
+
+		.card {
+			margin-bottom: 20px;
+		}
+
+		.profilePic {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+		}
+
+		.followings {
+			margin-bottom: 20px;
+		}
+
+		.following-profile img {
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			margin-right: 15px;
+		}
+
+		.following-profile {
+			margin-bottom: 15px;
+		}
+
+		.user-profile {
+			display: flex;
+			align-items: center;
+		}
+
+		.activities {
+			margin-bottom: 20px;
+		}
+
+	</style>
+</head>

@@ -1,0 +1,66 @@
+﻿@model AppActivity
+
+<div class="card">
+	<div class="card-body">
+		<div class="pic-name-date" style="display: flex; align-Models: center;">
+			<img src="@Url.Action("GetImage", "Home", new {userid = Model.OwnerId})" class="profilePic" />
+			<div class="name-date">
+				<label class="OwnerName">@Model.Owner.FirstName @Model.Owner.LastName</label>
+				<br />
+				@Model.Date
+			</div>
+		</div>
+		<h3 class="card-title">@Model.Title</h3>
+		<p class="card-text">@Model.Description</p>
+		<div class="SportAndType">@Model.SelectedSport Time:@Model.Time.ToString("HH:mm")</div>
+		<div class="OtherProperties">
+			@foreach (var prop in Model.GetType().GetProperties().Where(t => Attribute.IsDefined(t, typeof(NullableProperty)) && t.GetValue(Model) is not null))
+			{
+				<div class="tile">
+					<label class="propName">@prop.Name</label>
+					<h4>@prop.GetValue(Model)</h4>
+				</div>
+			}
+		</div>
+	</div>
+	@if (Model.PhotoUrl is not null)
+	{
+		<img src="@Model.PhotoUrl[0]" class="img-fluid" alt="Small Image" data-toggle="modal" data-target="#imageModal">
+
+		<!-- Modal -->
+		<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
+				<div class="modal-content">
+					<div id="imageCarousel" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							@for (int i = 0; i < Model.PhotoUrl.Count; i++)
+							{
+								<li data-target="#imageCarousel" data-slide-to="@i" class="@((i == 0) ? "active" : "")"></li>
+							}
+						</ol>
+
+						<!-- Carousel slides -->
+						<div class="carousel-inner">
+							@for (int i = 0; i < Model.PhotoUrl.Count; i++)
+							{
+								<div class="carousel-Model @((i == 0) ? "active" : "")">
+									<img class="d-block w-100" src="@Model.PhotoUrl[i]" alt="Slide @i" style="padding: 0;">
+								</div>
+							}
+						</div>
+
+						<!-- Carousel controls -->
+						<a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>

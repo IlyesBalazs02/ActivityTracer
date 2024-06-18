@@ -13,13 +13,18 @@ namespace ActivityTracer.Models
 
 		[NotMapped]
 		public virtual ICollection<UserFollow> Followers { get; set; }
+
 		[NotMapped]
 		public virtual ICollection<UserFollow> Followings { get; set; }
+
+		[NotMapped]
+		public virtual ICollection<AppActivity> Activities { get; set; }
 
 		public SiteUser()
 		{
 			Followers = new List<UserFollow>();
 			Followings = new List<UserFollow>();
+			Activities = new List<AppActivity>();
 		}
 	}
 }
