@@ -101,11 +101,6 @@ namespace ActivityTracer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult List()
-        {
-            return View(this.repository.Read());
-        }
-
         public IActionResult Edit(string id)
         {
             var appActivity = repository.ReadFromId(id);
