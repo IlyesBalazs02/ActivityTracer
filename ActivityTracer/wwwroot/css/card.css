@@ -1,0 +1,80 @@
+﻿
+.carousel-item {
+    transition: none !important;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.profilePic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.card-title {
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+    background-position: 0 bottom;
+    background-size: 80% 2px;
+    background-repeat: no-repeat;
+}
+
+.card-text {
+    background-color: rgb(183, 183, 204, 0.06)
+}
+
+SportAndType {
+    margin-right: 20px;
+}
+
+.card {
+    max-width: 50vw;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    margin-bottom: 20px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.pic-name-date {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.OtherProperties {
+    gap: 30px 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tile {
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: rgb(183, 183, 204, 0.06);
+    border: 1px solid #e9ecef;
+    border-right-width: 3px;
+    border-right-color: #ccc;
+    border-radius: 4px;
+}
+
+.tile-content {
+}
+
+.propName {
+    margin-right: 5px;
+    padding: 1px;
+    margin: 1px;
+    font-size: 11px;
+}

@@ -1,12 +1,18 @@
 ﻿@model AppActivity
 
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="~/css/card.css"/>
+</head>
 
 <div class="card">
 	<div class="card-body">
 		<div class="pic-name-date" style="display: flex; align-items: center;">
 			<img src="@Url.Action("GetImage", "Home", new {userid = Model.OwnerId})" class="profilePic" />
 			<div class="name-date">
-				<label class="OwnerName">@Model.Owner.FirstName @Model.Owner.LastName</label>
+				<span style="font-size: 18px; font-weight: 600">@Model.Owner.FirstName @Model.Owner.LastName</span>
 				<br />
 				@Model.Date
 			</div>
@@ -66,6 +72,4 @@
 			</div>
 		</div>
 	}
-
-
 </div>

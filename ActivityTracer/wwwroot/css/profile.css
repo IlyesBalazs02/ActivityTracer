@@ -1,0 +1,56 @@
+﻿
+.grid-row-container {
+    display: grid;
+    grid-template-rows: 100px 1fr;
+    margin: 0 auto;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 2fr 5fr 2fr;
+    margin: 0 auto;
+}
+
+.userInfo {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.followings {
+    grid-column: 1;
+    grid-row: 2;
+    justify-items: start;
+    text-align: left;
+}
+
+.followers {
+    grid-column: 3;
+    grid-row: 2;
+    justify-items: start;
+    text-align: left;
+}
+
+.activities {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.followings {
+    margin-bottom: 20px;
+}
+
+.following-profile img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.following-profile {
+    margin-bottom: 15px;
+}
+
+
+.activities {
+    margin-bottom: 20px;
+}
