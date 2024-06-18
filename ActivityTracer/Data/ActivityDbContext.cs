@@ -16,7 +16,7 @@ namespace ActivityTracer.Data
 		{
 			builder.Entity<AppActivity>()
 				.HasOne(t => t.Owner)
-				.WithMany()
+				.WithMany(u => u.Activities)
 				.HasForeignKey(t => t.OwnerId)
 				.OnDelete(DeleteBehavior.Cascade);
 

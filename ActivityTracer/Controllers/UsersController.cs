@@ -33,6 +33,19 @@ namespace ActivityTracer.Controllers
 		}
 
 		[Authorize]
+		public async Task<IActionResult> Profile(string userId)
+		{
+			var user = await _userManager.FindByIdAsync(userId);
+
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			return View(user);
+		}
+
+		[Authorize]
 		public IActionResult ListUsers()
 		{
 			return View(_userManager.Users.Where( t => t.Id != _userManager.GetUserId(this.User)));
