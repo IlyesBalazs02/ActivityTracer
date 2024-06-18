@@ -22,6 +22,10 @@ namespace ActivityTracer.Helpers
 			{
 				activity.Id = bindingContext.ValueProvider.GetValue("Id").FirstValue;
 			}
+			else
+			{
+				throw new ArgumentNullException(nameof(bindingContext));
+			}
 
 
 
@@ -35,11 +39,11 @@ namespace ActivityTracer.Helpers
 			}
 			else
 			{
-				throw new ArgumentNullException(nameof(bindingContext));
+				activity.SelectedSport = Sports.Activity;
 			}
 
-			if(bindingContext.ValueProvider.GetValue("Description").FirstValue is not null)
 			//Description
+			if (bindingContext.ValueProvider.GetValue("Description").FirstValue is not null)
 			activity.Description = bindingContext.ValueProvider.GetValue("Description").FirstValue;
 
 			//Date
@@ -71,11 +75,19 @@ namespace ActivityTracer.Helpers
 			{
 				activity.Calories = caloriesResult;
 			}
+			else
+			{
+				activity.Calories = null;
+			}
 
 			//Elevation
 			if (int.TryParse(bindingContext.ValueProvider.GetValue("Elevation").FirstValue, out var elevationResult))
 			{
 				activity.Elevation = elevationResult;
+			}
+			else
+			{
+				activity.Elevation = null;
 			}
 
 			//Pace
@@ -83,11 +95,10 @@ namespace ActivityTracer.Helpers
 			{
 				activity.Pace = paceResult;
 			}
-			//else
-			//{
-			//	//activity.Pace = null; // If parsing fails, set it to null
-			//	bindingContext.ModelState.AddModelError("Pace", "Invalid pace format. Expected format is HH:mm.");
-			//}
+			else
+			{
+				activity.Pace = null;
+			}
 
 
 			//Distance
@@ -95,17 +106,29 @@ namespace ActivityTracer.Helpers
 			{
 				activity.Distance = distanceResult;
 			}
+			else
+			{
+				activity.Distance = null;
+			}
 
 			//AvgHeartRate
 			if (int.TryParse(bindingContext.ValueProvider.GetValue("AvgHeartRate").FirstValue, out var avgHeartRateResult))
 			{
 				activity.AvgHeartRate = avgHeartRateResult;
 			}
+			else
+			{
+				activity.AvgHeartRate = null;
+			}
 
 			//MaxHeartRate
 			if (int.TryParse(bindingContext.ValueProvider.GetValue("MaxHeartRate").FirstValue, out var maxHeartRateResult))
 			{
 				activity.MaxHeartRate = maxHeartRateResult;
+			}
+			else
+			{
+				activity.MaxHeartRate = null;
 			}
 			
 			bindingContext.Result = ModelBindingResult.Success(activity);

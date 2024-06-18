@@ -8,7 +8,7 @@
 	@Html.EditorFor(t => t.Title)
 
 	@Html.LabelFor(t => t.Description)
-	@Html.EditorFor(t => t.Description)
+	@Html.TextAreaFor(t => t.Description)
 
 	@Html.LabelFor(t => t.SelectedSport)
 	@Html.DropDownListFor(t => t.SelectedSport, new SelectList(Enum.GetValues(typeof(Sports))))
