@@ -8,7 +8,7 @@ using ActivityTracer.Hubs;
 var builder = WebApplication.CreateBuilder(args);
 
 //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
+var connectionString = builder.Configuration.GetConnectionString("AzureConnection");
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, EmailSender>();
@@ -16,7 +16,7 @@ builder.Services.AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSe
 builder.Services.AddTransient<IAppActivityRepository, AppActivityRepository>();
 builder.Services.AddDbContext<ActivityDbContext>(opt =>
 	opt
-    .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ActivityDb;Trusted_Connection=True;MultipleActiveResultSets=true")
+    .UseSqlServer(connectionString)
     .UseLazyLoadingProxies()
     );
 
