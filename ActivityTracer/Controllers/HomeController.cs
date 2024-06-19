@@ -1,4 +1,5 @@
 using ActivityTracer.Data;
+using ActivityTracer.Hubs;
 using ActivityTracer.Migrations;
 using ActivityTracer.Models;
 using ActivityTracer.Services;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Diagnostics;
 
 namespace ActivityTracer.Controllers
@@ -22,8 +24,9 @@ namespace ActivityTracer.Controllers
 
         BlobServiceClient serviceClient;
         BlobContainerClient containerClient;
+		IHubContext<EventHub> hub;
 
-		public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, IAppActivityRepository repository, FollowingService followingService)
+		public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, IAppActivityRepository repository, FollowingService followingService, IHubContext<EventHub> hub)
 		{
 			_logger = logger;
 			_userManager = userManager;
@@ -32,6 +35,7 @@ namespace ActivityTracer.Controllers
             this._followingService = followingService;
             serviceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=activitytracerstorage;AccountKey=N/7GzEAl1Y4wxc/YQLMAt0wae1h6o25vbjniMn3jL8zim7B5McogkoLJ1AgXJnKrHAEe3ieeM0O8+AStF40ECw==;EndpointSuffix=core.windows.net");
             containerClient = serviceClient.GetBlobContainerClient("photos");
+			this.hub = hub;
 		}
 
 		public IActionResult Index()
@@ -98,7 +102,9 @@ namespace ActivityTracer.Controllers
             
             repository.Create(appActivity);
 
-            return RedirectToAction(nameof(Index));
+			await hub.Clients.All.SendAsync("activityCreated", appActivity);
+
+			return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Edit(string id)

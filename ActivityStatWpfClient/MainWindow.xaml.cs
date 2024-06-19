@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Text;
@@ -29,6 +30,8 @@ namespace ActivityStatWpfClient
 
 		HttpClient client;
 
+		HubConnection conn;
+
 		public AppActivity ActualActivity
 		{
 			get { return actualActivity; }
@@ -51,7 +54,27 @@ namespace ActivityStatWpfClient
 				AppActivities = new ObservableCollection<AppActivity>(await GetActivities());
 			}).Wait();
 
+			conn = new HubConnectionBuilder().WithUrl("https://localhost:7016/events").Build();
+			conn.Closed += async (error) =>
+			{
+				await Task.Delay(new Random().Next(0, 5) * 1000);
+				await conn.StartAsync();
+			};
+
+			conn.On<AppActivity>("activityCreated", async t => await Refresh());
+
+			Task.Run(async () =>
+			{
+				await conn.StartAsync();
+			}).Wait();
+
 			this.DataContext = this;
+		}
+
+		async Task Refresh()
+		{
+			AppActivities = new ObservableCollection<AppActivity>(await GetActivities());
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("AppActivities"));
 		}
 
 		async Task<IEnumerable<AppActivity>> GetActivities()

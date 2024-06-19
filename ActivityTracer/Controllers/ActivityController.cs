@@ -1,6 +1,8 @@
 ﻿using ActivityTracer.Data;
+using ActivityTracer.Hubs;
 using ActivityTracer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace ActivityTracer.Controllers
 {
@@ -11,9 +13,12 @@ namespace ActivityTracer.Controllers
 	{
 		IAppActivityRepository repository;
 
-		public ActivityController(IAppActivityRepository repository)
+		IHubContext<EventHub> hub;
+
+		public ActivityController(IAppActivityRepository repository, IHubContext<EventHub> hub)
 		{
 			this.repository = repository;
+			this.hub = hub;
 		}
 
 		[HttpGet]
@@ -29,9 +34,10 @@ namespace ActivityTracer.Controllers
 		}
 
 		[HttpPost]
-		public void AddActivity(AppActivity c)
+		public async void AddActivity(AppActivity c)
 		{
 			repository.Create(c);
+			await hub.Clients.All.SendAsync("activityCreated", c);
 		}
 
 		[HttpPut]
