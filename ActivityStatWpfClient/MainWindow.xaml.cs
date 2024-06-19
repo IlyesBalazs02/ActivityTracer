@@ -63,7 +63,14 @@ namespace ActivityStatWpfClient
 
 			conn.On<AppActivity>("activityCreated", async t => await Refresh());
 			conn.On<string>("activityModified", async t => await Refresh());
-			conn.On<string>("activityDeleted", async t => await Refresh());
+			conn.On<string>("activityDeleted", t => 
+			{
+				var activityToDelete = AppActivities.FirstOrDefault(X => X.Id == t);
+				this.Dispatcher.Invoke(() =>
+				{
+					AppActivities.Remove(activityToDelete);
+				});
+			});
 
 			conn.On<AppActivity>("activityModified", async (updatedActivity) =>
 			{
