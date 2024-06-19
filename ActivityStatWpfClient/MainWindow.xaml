@@ -1,0 +1,31 @@
+﻿<Window x:Class="ActivityStatWpfClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ActivityStatWpfClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox ItemsSource="{Binding AppActivities}" SelectedItem="{Binding ActualActivity}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="5" Padding="5" CornerRadius="3">
+
+                        <StackPanel HorizontalAlignment="Center">
+                            <Label Content="{Binding Title}" ContentStringFormat="Title: {0}" />
+                            <Label Content="{Binding Description}" ContentStringFormat="Description: {0}" />
+                            <Label Content="{Binding SelectedSport}" ContentStringFormat="SelectedSport: {0}" />
+                            <Label Content="{Binding Date}" ContentStringFormat="Date: {0}" />
+                            <Label Content="{Binding Time}" ContentStringFormat="Time: {0}" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>
