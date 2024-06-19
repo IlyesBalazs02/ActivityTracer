@@ -11,6 +11,31 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-
+        <ListBox ItemsSource="{Binding AppActivities}" SelectedItem="{Binding ActualActivity}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Label Content="{Binding Title}" ContentStringFormat="Title: {0}" />
+                        <Label Content="{Binding Description}" ContentStringFormat="Description: {0}" />
+                        <Label Content="{Binding SelectedSport}" ContentStringFormat="SelectedSport: {0}" />
+                        <Label Content="{Binding Date}" ContentStringFormat="Date: {0}" />
+                        <Label Content="{Binding Time}" ContentStringFormat="Time: {0}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="1" DataContext="ActualActivity">
+            <Label Content="Title" Background="LightGoldenrodYellow" Padding="10" />
+            <TextBox Padding="10" Text="{Binding Title}" />
+            <Label Content="Description" Background="LightGoldenrodYellow" Padding="10" />
+            <TextBox Padding="10" Text="{Binding Description}" />
+            <Label Content="SelectedSport" Background="LightGoldenrodYellow" Padding="10" />
+            <ComboBox Name="sportList" Padding="10" ItemsSource="{Binding Sports}" SelectedItem="{Binding SelectedSport}" />
+            <Label Content="Date" Background="LightGoldenrodYellow" Padding="10" />
+            <DatePicker SelectedDate="{Binding Date}" />
+            <Label Content="Time" Background="LightGoldenrodYellow" Padding="10" />
+            <TextBox Padding="10" Text="{Binding Time}" />
+            
+        </StackPanel>
     </Grid>
 </Window>

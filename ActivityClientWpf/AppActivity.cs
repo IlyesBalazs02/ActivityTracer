@@ -8,6 +8,7 @@ using System.Windows;
 
 namespace ActivityClientWpf
 {
+
 	public enum Sports
 	{
 		Activity,
@@ -62,10 +63,16 @@ namespace ActivityClientWpf
 
 		private TimeSpan time;
 
-		public TimeSpan Time
+		public string Time
 		{
-			get { return time; }
-			set { time = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Time")); }
+			get { return time.ToString(@"hh\:mm\:ss"); }
+			set {
+				if (TimeSpan.TryParse(value, out var newTime))
+				{
+					time = newTime;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Time"));
+				}
+			}
 		}
 
         public AppActivity()
