@@ -19,7 +19,7 @@
 	<input asp-for="Date" type="datetime-local" id="dt" name="Date" class="form-control" required />
 
 	@Html.LabelFor(t => t.Time)
-	<input asp-for="Time" type="time" id="appt" name="Time" min="00:00" max="23:59" class="form-control" required />
+	<input asp-for="Time" type="time" id="appt" name="Time" min="00:00:00" max="23:59:59" class="form-control" required />
 
 	@* List all the property that has a value and posses the "NullableProperty" attribute *@
 	@foreach (var prop in Model.GetType().GetProperties().Where(t => t.GetValue(Model) is not null && Attribute.IsDefined(t, typeof(NullableProperty))))
