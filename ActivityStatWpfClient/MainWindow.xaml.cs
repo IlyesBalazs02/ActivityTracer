@@ -62,11 +62,23 @@ namespace ActivityStatWpfClient
 			};
 
 			conn.On<AppActivity>("activityCreated", async t => await Refresh());
+			conn.On<string>("activityModified", async t => await Refresh());
+			conn.On<string>("activityDeleted", async t => await Refresh());
+
+			conn.On<AppActivity>("activityModified", async (updatedActivity) =>
+			{
+				// Handle the updated activity as needed
+				await Refresh(); // Ensure Refresh() method updates UI or data binding
+			});
 
 			Task.Run(async () =>
 			{
 				await conn.StartAsync();
 			}).Wait();
+
+			
+
+			// Ensure connection starts properly
 
 			this.DataContext = this;
 		}

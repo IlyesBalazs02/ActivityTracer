@@ -1,21 +1,29 @@
-﻿using ActivityTracer.Models;
+﻿using ActivityTracer.Hubs;
+using ActivityTracer.Models;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.SignalR;
+using System.Security.Cryptography;
 
 namespace ActivityTracer.Data
 {
 	public class AppActivityRepository : IAppActivityRepository
 	{
 		ActivityDbContext context;
+		IHubContext<EventHub> hub;
 
-		public AppActivityRepository(ActivityDbContext context)
+		public AppActivityRepository(ActivityDbContext context, IHubContext<EventHub> hub)
 		{
 			this.context = context;
+			this.hub = hub;
 		}
 
-		public void Create(AppActivity activity)
+		public async void Create(AppActivity activity)
 		{
 			context.Activities.Add(activity);
 			context.SaveChanges();
+
+			await hub.Clients.All.SendAsync("activityCreated", activity);
 		}
 
 		public IEnumerable<AppActivity> Read()
@@ -29,16 +37,16 @@ namespace ActivityTracer.Data
 			return context.Activities.FirstOrDefault(t => t.Id == id);
 		}
 
-		public void Update(AppActivity activity)
+		public async void Update(AppActivity activity)
 		{
 			var old = ReadFromId((string)activity.Id);
-
+			
 			if (old is null)
 			{
 				throw new Exception("Object not found");
 			}
 
-			foreach (var prop in activity.GetType().GetProperties().Where( t => t.Name != "Id"))
+			foreach (var prop in activity.GetType().GetProperties().Where( t => t.Name != "Id" && t.Name != "PhotoUrl"))
 			{
 					var value = prop.GetValue(activity);
 
@@ -47,14 +55,19 @@ namespace ActivityTracer.Data
 					oldProp.SetValue(old, value);
 			}
 
+			
 			context.SaveChanges();
+
+			await hub.Clients.All.SendAsync("activityModified", old.Id);
 		}
 
-		public void DeleteFromId(string id)
+		public async void DeleteFromId(string id)
 		{
 			var activity = ReadFromId(id);
 			context.Activities.Remove(activity);
 			context.SaveChanges();
+
+			await hub.Clients.All.SendAsync("activityDeleted", id);
 		}
 	}
 }

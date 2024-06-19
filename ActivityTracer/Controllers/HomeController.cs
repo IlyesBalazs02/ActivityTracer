@@ -24,9 +24,8 @@ namespace ActivityTracer.Controllers
 
         BlobServiceClient serviceClient;
         BlobContainerClient containerClient;
-		IHubContext<EventHub> hub;
 
-		public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, IAppActivityRepository repository, FollowingService followingService, IHubContext<EventHub> hub)
+		public HomeController(ILogger<HomeController> logger, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, IAppActivityRepository repository, FollowingService followingService)
 		{
 			_logger = logger;
 			_userManager = userManager;
@@ -35,7 +34,6 @@ namespace ActivityTracer.Controllers
             this._followingService = followingService;
             serviceClient = new BlobServiceClient("DefaultEndpointsProtocol=https;AccountName=activitytracerstorage;AccountKey=N/7GzEAl1Y4wxc/YQLMAt0wae1h6o25vbjniMn3jL8zim7B5McogkoLJ1AgXJnKrHAEe3ieeM0O8+AStF40ECw==;EndpointSuffix=core.windows.net");
             containerClient = serviceClient.GetBlobContainerClient("photos");
-			this.hub = hub;
 		}
 
 		public IActionResult Index()
@@ -102,8 +100,6 @@ namespace ActivityTracer.Controllers
             
             repository.Create(appActivity);
 
-			await hub.Clients.All.SendAsync("activityCreated", appActivity);
-
 			return RedirectToAction(nameof(Index));
         }
 
@@ -114,7 +110,7 @@ namespace ActivityTracer.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(AppActivity appActivity)
+        public  IActionResult Edit(AppActivity appActivity)
         {
 			appActivity.OwnerId = _userManager.GetUserId(this.User);
 
@@ -127,7 +123,8 @@ namespace ActivityTracer.Controllers
 
 			}
 			repository.Update(appActivity);
-            return RedirectToAction(nameof(Index));
+
+			return RedirectToAction(nameof(Index));
         }
 
         //get user profile picture

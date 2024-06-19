@@ -13,12 +13,10 @@ namespace ActivityTracer.Controllers
 	{
 		IAppActivityRepository repository;
 
-		IHubContext<EventHub> hub;
 
-		public ActivityController(IAppActivityRepository repository, IHubContext<EventHub> hub)
+		public ActivityController(IAppActivityRepository repository)
 		{
 			this.repository = repository;
-			this.hub = hub;
 		}
 
 		[HttpGet]
@@ -37,7 +35,6 @@ namespace ActivityTracer.Controllers
 		public async void AddActivity(AppActivity c)
 		{
 			repository.Create(c);
-			await hub.Clients.All.SendAsync("activityCreated", c);
 		}
 
 		[HttpPut]
