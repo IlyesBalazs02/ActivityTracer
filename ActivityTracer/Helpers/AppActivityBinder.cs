@@ -1,5 +1,6 @@
 ﻿using ActivityTracer.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json.Serialization;
 using System.Globalization;
 using System.Reflection;
 
@@ -22,13 +23,9 @@ namespace ActivityTracer.Helpers
 			{
 				activity.Id = bindingContext.ValueProvider.GetValue("Id").FirstValue;
 			}
-			else
-			{
-				throw new ArgumentNullException(nameof(bindingContext));
-			}
 
 
-
+			var asd = bindingContext.ValueProvider;
 			//Title
 			activity.Title = bindingContext.ValueProvider.GetValue("Title").FirstValue;
 

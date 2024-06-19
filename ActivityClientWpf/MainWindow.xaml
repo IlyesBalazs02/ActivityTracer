@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ActivityClientWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="490" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -24,18 +24,20 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Grid.Column="1" DataContext="ActualActivity">
-            <Label Content="Title" Background="LightGoldenrodYellow" Padding="10" />
-            <TextBox Padding="10" Text="{Binding Title}" />
-            <Label Content="Description" Background="LightGoldenrodYellow" Padding="10" />
-            <TextBox Padding="10" Text="{Binding Description}" />
-            <Label Content="SelectedSport" Background="LightGoldenrodYellow" Padding="10" />
-            <ComboBox Name="sportList" Padding="10" ItemsSource="{Binding Sports}" SelectedItem="{Binding SelectedSport}" />
-            <Label Content="Date" Background="LightGoldenrodYellow" Padding="10" />
+        <StackPanel Grid.Column="1" DataContext="{Binding ActualActivity}">
+            <Label Content="Title" Background="LightGoldenrodYellow" Padding="8" />
+            <TextBox Padding="8" Text="{Binding Title}" />
+            <Label Content="Description" Background="LightGoldenrodYellow" Padding="8" />
+            <TextBox Padding="8" Text="{Binding Description}" />
+            <Label Content="SelectedSport" Background="LightGoldenrodYellow" Padding="8" />
+            <ComboBox Name="sportList" Padding="8" ItemsSource="{Binding Sports}" SelectedItem="{Binding SelectedSport}" />
+            <Label Content="Date" Background="LightGoldenrodYellow" Padding="8" />
             <DatePicker SelectedDate="{Binding Date}" />
-            <Label Content="Time" Background="LightGoldenrodYellow" Padding="10" />
-            <TextBox Padding="10" Text="{Binding Time}" />
-            
+            <Label Content="Time" Background="LightGoldenrodYellow" Padding="8" />
+            <TextBox Padding="8" Text="{Binding Time}" />
+            <Button Content="Save current" Padding="8" Margin="8" Click="Update" />
+            <Button Content="Add as new" Padding="8" Margin="8" Click="Create" />
+            <Button Content="Delete current" Padding="8" Margin="8" Click="Delete" />
         </StackPanel>
     </Grid>
 </Window>

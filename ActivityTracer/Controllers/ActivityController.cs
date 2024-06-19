@@ -29,7 +29,7 @@ namespace ActivityTracer.Controllers
 		}
 
 		[HttpPost]
-		public void AddActivity([FromBody] AppActivity c)
+		public void AddActivity(AppActivity c)
 		{
 			repository.Create(c);
 		}

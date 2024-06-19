@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net.Http;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,8 @@ namespace ActivityClientWpf
 
 		private AppActivity actualActivity;
 
+		HttpClient client;
+
 		public AppActivity ActualActivity
 		{
 			get { return actualActivity; }
@@ -36,11 +39,48 @@ namespace ActivityClientWpf
 
 			sportList.ItemsSource = Enum.GetValues(typeof(Sports)).Cast<Sports>();
 
-			AppActivities = new ObservableCollection<AppActivity>();
-			AppActivities.Add(new AppActivity() { Title = "Title1", Description = "Desc1", SelectedSport = Sports.Running, Date = DateTime.Now, Time = "00:30:22" });
-			AppActivities.Add(new AppActivity() { Title = "Title2", Description = "Desc2", SelectedSport = Sports.Climbing, Date = DateTime.Now, Time = "00:30:22" });
-			AppActivities.Add(new AppActivity() { Title = "Title3", Description = "Desc3", SelectedSport = Sports.Hiking, Date = DateTime.Now, Time = "00:30:22" });
+			client = new HttpClient();
+			client.BaseAddress = new Uri("https://localhost:7016/");
+			client.DefaultRequestHeaders.Accept.Clear();
+			client.DefaultRequestHeaders.Accept.Add(
+			  new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+			Task.Run(async () =>
+			{
+				AppActivities = new ObservableCollection<AppActivity>(await GetActivities());
+			}).Wait();
+
 			this.DataContext = this;
+		}
+
+		async Task<IEnumerable<AppActivity>> GetActivities()
+		{
+			var response = await client.GetAsync("/Activity");
+			if (response.IsSuccessStatusCode)
+			{
+				return await response.Content.ReadAsAsync<IEnumerable<AppActivity>>();
+			}
+			throw new Exception("something wrong...");
+		}
+
+		private async void Delete(object sender, RoutedEventArgs e)
+		{
+			var response = await client.DeleteAsync("/Activity/" + actualActivity.Id);
+			response.EnsureSuccessStatusCode();
+		}
+		
+		private async void Create(object sender, RoutedEventArgs e)
+		{
+			this.actualActivity.Id = null;
+			;
+			var response = await client.PostAsJsonAsync("/Activity" , this.actualActivity);
+			response.EnsureSuccessStatusCode();
+		}
+		
+		private async void Update(object sender, RoutedEventArgs e)
+		{
+			var response = await client.PutAsJsonAsync("/Activity", this.actualActivity);
+			response.EnsureSuccessStatusCode();
 		}
 
 	}
